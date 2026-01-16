@@ -63,6 +63,21 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Read API key from local.properties or environment variable
+        // To set the key, add this line to local.properties (in project root):
+        //   OPENAI_API_KEY=<set in local.properties>
+        // Or set the OPENAI_API_KEY environment variable.
+        val localProperties = java.util.Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localProperties.load(java.io.FileInputStream(localPropertiesFile))
+        }
+        val openAiApiKey = localProperties.getProperty("OPENAI_API_KEY") 
+            ?: System.getenv("OPENAI_API_KEY") 
+            ?: ""
+
+        buildConfigField("String", "OPENAI_API_KEY", "\"$openAiApiKey\"")
     }
 
     buildTypes {
@@ -86,6 +101,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
