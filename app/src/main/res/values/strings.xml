@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">DeviceLinkAssistant</string>
+    <string name="installer_accessibility_desc">
+        Automates install click-through for Play Store and installer dialogs when you start an install from DeviceLinkAssistant.
+    </string>
+</resources>

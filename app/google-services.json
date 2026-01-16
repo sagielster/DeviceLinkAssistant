@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "664536262210",
+    "project_id": "devicelink-73e77",
+    "storage_bucket": "devicelink-73e77.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664536262210:android:1b277ff58da63aaae7efdb",
+        "android_client_info": {
+          "package_name": "com.example.devicelinkassistant"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoc8a62eOUDj7lQ66RC8l8xSY2I2fwkj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

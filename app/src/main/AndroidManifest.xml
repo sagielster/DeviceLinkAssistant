@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Needed to draw arrow/circle overlays on top of other apps -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- Required on Android 14+ for foreground services that do screen capture -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+    <!-- For NotificationListenerService registration (granted only by the system when enabled in Settings) -->
+    <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
+
+    <!-- Legacy Bluetooth permissions for Android 10/11 and below -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+
+    <!-- Only needed for BLE scanning on Android 10/11 and below; keep it capped to avoid
+         unnecessary location prompts on Android 12+ where BT permissions replace it. -->
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="30" />
+
+    <application
+        android:allowBackup="true"
+        android:label="DeviceLinkAssistant"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DeviceLinkAssistant">
+
+        <!-- FCM push receiver (DeviceLink) -->
+        <service
+            android:name=".DeviceLinkFcmService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- Coach mode: MediaProjection + OCR (guidance-only, no Accessibility required) -->
+        <service
+            android:name=".ScreenCoachService"
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
+        <!-- Enables querying active MediaSessions (e.g., Spotify) once user grants Notification Access in Settings -->
+        <service
+            android:name=".SpotifyNotificationListener"
+            android:label="DeviceLinkAssistant Media Listener"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- AccessibilityService used to automate installer / Play Store click-through (user must enable in Settings). -->
+        <service
+            android:name=".InstallerAccessibilityService"
+            android:exported="false"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+
+            <!-- Must exist: app/src/main/res/xml/installer_accessibility_config.xml -->
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/installer_accessibility_config" />
+        </service>
+    </application>
+
+</manifest>
