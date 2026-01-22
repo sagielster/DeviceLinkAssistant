@@ -1,3 +1,4 @@
+```mermaid
 flowchart LR
     User((User))
 
@@ -27,3 +28,4 @@ flowchart LR
     Integrations --> AgentCore
     AgentCore --> App
     AgentCore --> Echo
+```
