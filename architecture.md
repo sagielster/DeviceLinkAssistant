@@ -1,19 +1,13 @@
-## System Architecture
-
-The user adds an autonomous agent as an **admin** to their Google Home.
-All interaction flows through the agent, not individual devices or skills.
-
-```mermaid
 flowchart LR
     User((User))
 
     subgraph Client
         App[Dedicated Agent App]
-        Echo[Voice Assistants\n(Echo, etc.)]
+        Echo[Voice Assistants<br/>Echo Devices]
     end
 
     subgraph Home
-        GH[Google Home\n(Admin)]
+        GH[Google Home Admin]
         Devices[Smart Home Devices]
     end
 
