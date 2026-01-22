@@ -1,31 +1,34 @@
-```mermaid
-flowchart LR
+flowchart TB
+
+    %% User
     User((User))
 
+    %% Client layer
     subgraph Client
         App[Dedicated Agent App]
-        Echo[Voice Assistants<br/>Echo Devices]
+        Voice[Voice Assistants\n(Echo, etc.)]
     end
 
-    subgraph Home
-        GH[Google Home Admin]
-        Devices[Smart Home Devices]
-    end
-
+    %% Agent layer
     subgraph Agent
         AgentCore[Autonomous Agent]
         Integrations[Integrations Layer]
     end
 
+    %% Home layer
+    subgraph Home
+        GH[Google Home\n(Admin)]
+        Devices[Smart Home Devices]
+    end
+
+    %% Intent flow
     User --> App
-    User --> Echo
+    User --> Voice
+
     App --> AgentCore
-    Echo --> AgentCore
+    Voice --> AgentCore
+
+    %% Authority flow
     AgentCore --> Integrations
     Integrations --> GH
     GH --> Devices
-    Devices --> GH
-    Integrations --> AgentCore
-    AgentCore --> App
-    AgentCore --> Echo
-```
